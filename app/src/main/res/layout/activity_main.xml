@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorMainBottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/id_main_homepage"
+            android:background="@mipmap/homepage"
+            style="@style/MainBottomTV" />
+        <TextView
+            android:id="@+id/id_main_find"
+            android:background="@mipmap/find"
+            style="@style/MainBottomTV" />
+        <TextView
+            android:id="@+id/id_main_collection"
+            android:background="@mipmap/collection"
+            style="@style/MainBottomTV" />
+        <TextView
+            android:id="@+id/id_main_pocket"
+            android:background="@mipmap/pocket"
+            style="@style/MainBottomTV" />
+
+    </LinearLayout>
+</RelativeLayout>
