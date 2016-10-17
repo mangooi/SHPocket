@@ -4,8 +4,9 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/id_main_bottom"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+
         android:layout_alignParentBottom="true"
         android:background="@color/colorMainBottom"
         android:orientation="horizontal"
@@ -30,4 +31,12 @@
             style="@style/MainBottomTV" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/id_main_fl"
+        android:layout_above="@id/id_main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
 </RelativeLayout>

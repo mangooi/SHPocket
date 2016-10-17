@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mangooi.shpocket.R;
+
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2016/10/16.
  */
@@ -24,7 +28,10 @@ public class HomePage extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        View view=inflater.inflate(R.layout.fragment_homepage,container,false);
+        ButterKnife.bind(this,view);
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        return view;
     }
 }
