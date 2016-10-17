@@ -1,5 +1,6 @@
 package com.mangooi.shpocket.activity.impl;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 
 import com.mangooi.shpocket.R;
+import com.mangooi.shpocket.TestActivity;
 import com.mangooi.shpocket.fragment.HomePage;
 
 import butterknife.BindView;
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity{
     @OnClick(R.id.id_main_pocket)
     void pocket(){
         Toast.makeText(this, "pocket", Toast.LENGTH_SHORT).show();
+        //ForTest
+        startActivity(new Intent(this, TestActivity.class));
     }
 
 

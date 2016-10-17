@@ -6,6 +6,8 @@
     android:background="#DCD6D6">
 
     <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:background="#FFFFFF"
         android:layout_marginTop="5dp"
         android:id="@+id/id_homepage_ll_search"
@@ -23,6 +25,7 @@
             android:layout_width="35dp"
             android:layout_height="match_parent" />
         <EditText
+            android:textIsSelectable="false"
             android:layout_gravity="center"
             android:hint="搜索"
             android:id="@+id/id_homepage_et"

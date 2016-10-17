@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TestActivity"/>
-        <activity android:name=".activity.impl.MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".activity.impl.MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:windowSoftInputMode="adjustPan"/>
 
     </application>
 
