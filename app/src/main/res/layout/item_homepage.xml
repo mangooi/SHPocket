@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--从网上加载的图片-->
+    <TextView
+        android:background="@color/AllDefault"
+        android:layout_width="match_parent"
+        android:layout_height="233dp" />
+    <!--点击加入收藏-->
+    <TextView
+        android:text="@string/tv_addToFav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!--华丽的分割线-->
+    <LinearLayout
+        android:background="@color/AllDefault"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <!--从网上获取的简介-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="67dp" />
+
+</LinearLayout>

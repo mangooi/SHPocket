@@ -21,13 +21,13 @@
         <TextView
             android:layout_margin="5dp"
             android:gravity="center"
-            android:background="@mipmap/join_trip"
+            android:background="@mipmap/icon_search"
             android:layout_width="35dp"
             android:layout_height="match_parent" />
         <EditText
             android:textIsSelectable="false"
             android:layout_gravity="center"
-            android:hint="搜索"
+            android:hint="@string/hint_find"
             android:id="@+id/id_homepage_et"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -57,14 +57,18 @@
         <TextView
             android:background="@mipmap/spot"
             style="@style/HomePageIconTV" />
+
         <TextView
             android:background="@mipmap/exhibition"
-            style="@style/HomePageIconTV" />
+            style="@style/HomePageIconTV"
+            android:id="@+id/textView" />
+
         <TextView
             android:background="@mipmap/activity"
             style="@style/HomePageIconTV" />
 
     </LinearLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/id_homepage_list"

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">SHPocket</string>
     <string name="text_splash">引导图片</string>
+    <string name="hint_find">搜索</string>
+    <string name="tv_addToFav">加入收藏</string>
 </resources>
