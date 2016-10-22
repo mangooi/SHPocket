@@ -17,6 +17,8 @@ public class HPAdapter extends RecyclerView.Adapter<HPAdapter.MyViewHolder>{
 
     private Context mContext;
 
+
+
     public HPAdapter(Context context){
         mContext=context;
     }
