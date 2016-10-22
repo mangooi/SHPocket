@@ -20,6 +20,7 @@ public class Test {
         String result = null;
         StringBuffer sbf = new StringBuffer();
         httpUrl = httpUrl + "?" + httpArg;
+        sbf.append('[');
         try {
             URL url = new URL(httpUrl);
             HttpURLConnection connection = (HttpURLConnection) url
@@ -36,6 +37,7 @@ public class Test {
                 sbf.append("\r\n");
             }
             reader.close();
+            sbf.append(']');
             result = sbf.toString();
         } catch (Exception e) {
             e.printStackTrace();

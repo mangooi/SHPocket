@@ -14,8 +14,13 @@ import android.widget.Toast;
 import com.mangooi.shpocket.R;
 import com.mangooi.shpocket.TestActivity;
 import com.mangooi.shpocket.activity.IMainActivity;
+import com.mangooi.shpocket.data.Constant;
 import com.mangooi.shpocket.fragment.HomePage;
 import com.mangooi.shpocket.util.Test;
+import com.mangooi.shpocket.util.parse.GsonUtils;
+import com.mangooi.shpocket.util.parse.homepage.WeiXinHot;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +69,18 @@ public class MainActivity extends AppCompatActivity implements IMainActivity{
 
     @Override
     public void toCollection() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                List<WeiXinHot> list= GsonUtils
+                .parseJsonArrayWithGson(Test.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG), WeiXinHot.class);
+                Log.i("Test",list.toString());
+            }
+        }.start();
+
+
+
         Toast.makeText(this, "collection", Toast.LENGTH_SHORT).show();
 
     }
