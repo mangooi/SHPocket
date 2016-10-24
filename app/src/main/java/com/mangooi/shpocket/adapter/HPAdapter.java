@@ -5,8 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mangooi.shpocket.R;
+import com.mangooi.shpocket.util.parse.homepage.WeiXinHot;
+
+import java.util.List;
+
 
 /**
  * Created by Administrator on 2016/10/21.
@@ -16,11 +21,12 @@ public class HPAdapter extends RecyclerView.Adapter<HPAdapter.MyViewHolder>{
 
 
     private Context mContext;
+    private List<WeiXinHot.NewsList> newsLists;
 
 
-
-    public HPAdapter(Context context){
-        mContext=context;
+    public HPAdapter(Context mContext, List<WeiXinHot.NewsList> newsLists) {
+        this.mContext = mContext;
+        this.newsLists = newsLists;
     }
 
     @Override
@@ -32,6 +38,7 @@ public class HPAdapter extends RecyclerView.Adapter<HPAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
+
     }
 
     @Override
@@ -40,9 +47,12 @@ public class HPAdapter extends RecyclerView.Adapter<HPAdapter.MyViewHolder>{
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-
-        public MyViewHolder(View itemView) {
+        TextView tvImage;
+        TextView tvBrief;
+        MyViewHolder(View itemView) {
             super(itemView);
+            tvImage= (TextView) itemView.findViewById(R.id.id_homepage_item_image);
+            tvBrief= (TextView) itemView.findViewById(R.id.id_homepage_item_brief);
         }
     }
 }

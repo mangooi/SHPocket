@@ -5,6 +5,7 @@
 
     <!--从网上加载的图片-->
     <TextView
+        android:id="@+id/id_homepage_item_image"
         android:background="@color/AllDefault"
         android:layout_width="match_parent"
         android:layout_height="233dp" />
@@ -20,6 +21,7 @@
         android:layout_height="1dp"/>
     <!--从网上获取的简介-->
     <TextView
+        android:id="@+id/id_homepage_item_brief"
         android:layout_width="match_parent"
         android:layout_height="67dp" />
 

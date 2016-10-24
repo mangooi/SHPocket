@@ -11,13 +11,13 @@ import com.mangooi.shpocket.util.Test;
  */
 
 public class GetDataService extends IntentService{
+
+    private static OnCallListener mListener;
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
      */
-    public GetDataService(String name) {
-        super(name);
+    public GetDataService() {
+        super("123");
     }
 
     @Override
@@ -25,12 +25,24 @@ public class GetDataService extends IntentService{
         String key=intent.getStringExtra("Key");
         switch (key){
             case "WeiXinHot":
-                Test.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG);
+                mListener.onCall(Test.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG));
                 break;
             default:
                 break;
         }
     }
 
+    public interface OnCallListener{
+        void onCall(String content);
+    }
 
+    public static void setOnCallListener(OnCallListener listener){
+        mListener=listener;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mListener=null;
+    }
 }
