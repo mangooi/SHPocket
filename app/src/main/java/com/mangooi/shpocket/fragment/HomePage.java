@@ -1,6 +1,7 @@
 package com.mangooi.shpocket.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 
 import com.mangooi.shpocket.R;
 import com.mangooi.shpocket.adapter.HPAdapter;
+import com.mangooi.shpocket.data.Constant;
+import com.mangooi.shpocket.service.GetDataService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +31,8 @@ public class HomePage extends Fragment{
 
     Context mContext;
 
+    Intent mIntent;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -39,8 +44,14 @@ public class HomePage extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_homepage,container,false);
         ButterKnife.bind(this,view);
+        mIntent=new Intent();
+        mIntent.putExtra("Key","WeiXinHot");
+        mContext.startService(mIntent);
         list.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         list.setAdapter(new HPAdapter(mContext));
         return view;
     }
+
+
+
 }
