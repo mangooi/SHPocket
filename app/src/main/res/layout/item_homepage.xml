@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <!--从网上加载的图片-->
     <TextView
         android:id="@+id/id_homepage_item_image"
         android:background="@color/AllDefault"
         android:layout_width="match_parent"
-        android:layout_height="233dp" />
+        android:layout_height="123dp" />
     <!--点击加入收藏-->
     <TextView
         android:text="@string/tv_addToFav"
@@ -23,6 +23,6 @@
     <TextView
         android:id="@+id/id_homepage_item_brief"
         android:layout_width="match_parent"
-        android:layout_height="67dp" />
+        android:layout_height="33dp" />
 
 </LinearLayout>

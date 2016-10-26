@@ -2,9 +2,14 @@ package com.mangooi.shpocket.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import com.mangooi.shpocket.data.Constant;
+import com.mangooi.shpocket.util.PictureUtils;
 import com.mangooi.shpocket.util.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mangooi on 2016/10/24 - 9:56
@@ -13,6 +18,8 @@ import com.mangooi.shpocket.util.Test;
 public class GetDataService extends IntentService{
 
     private static OnCallListener mListener;
+    private static OnGetBitMap mGetBitMap;
+    private List<Bitmap> bitmaps;
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      */
@@ -27,6 +34,13 @@ public class GetDataService extends IntentService{
             case "WeiXinHot":
                 mListener.onCall(Test.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG));
                 break;
+            case "BitMap":
+                bitmaps=new ArrayList<>();
+                ArrayList<String> urls=intent.getStringArrayListExtra("array");
+                for (String url : urls) {
+                    bitmaps.add(PictureUtils.getBitmap(url));
+                }
+                mGetBitMap.onCall(bitmaps);
             default:
                 break;
         }
@@ -34,6 +48,10 @@ public class GetDataService extends IntentService{
 
     public interface OnCallListener{
         void onCall(String content);
+    }
+
+    public interface OnGetBitMap{
+        void onCall(List<Bitmap> bitmaps);
     }
 
     public static void setOnCallListener(OnCallListener listener){
@@ -44,5 +62,9 @@ public class GetDataService extends IntentService{
     public void onDestroy() {
         super.onDestroy();
         mListener=null;
+        mGetBitMap=null;
     }
+
+    public static void setOnCallListener(OnGetBitMap listener){mGetBitMap=listener;}
+
 }

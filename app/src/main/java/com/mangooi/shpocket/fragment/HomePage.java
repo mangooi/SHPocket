@@ -2,7 +2,9 @@ package com.mangooi.shpocket.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.mangooi.shpocket.R;
 import com.mangooi.shpocket.adapter.HPAdapter;
 import com.mangooi.shpocket.service.GetDataService;
 import com.mangooi.shpocket.util.parse.GsonUtils;
 import com.mangooi.shpocket.util.parse.homepage.WeiXinHot;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,12 +41,19 @@ public class HomePage extends Fragment{
 
     Context mContext;
 
+    HPAdapter mHPAdapter;
+    Handler mHandler;
     Intent mIntent;
+
+    List<String> briefList;
+    List<WeiXinHot.NewsList> newsList;
+    ArrayList<String> urlList;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext=context;
+        mHandler=new Handler();
     }
 
     @Nullable
@@ -53,19 +66,46 @@ public class HomePage extends Fragment{
             public void onCall(String content) {
                 //将content进行解析
                 List<WeiXinHot> weiXinHots= GsonUtils.parseJsonArrayWithGson(content,WeiXinHot.class);
-                Log.i("Test",weiXinHots.toString());
-                /*list.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-                list.setAdapter(new HPAdapter(mContext));*/
+                newsList=weiXinHots.get(0).getNewslist();
+                briefList=new ArrayList<String>();
+                urlList=new ArrayList<String>();
+                for (WeiXinHot.NewsList newsList1 : newsList) {
+                    briefList.add(newsList1.getTitle());
+                    urlList.add(newsList1.getPicUrl());
+                }
+                mIntent=new Intent(mContext,GetDataService.class);
+                mIntent.putExtra("Key","BitMap");
+                mIntent.putStringArrayListExtra("array",urlList);
+                mContext.startService(mIntent);
+                /*mHPAdapter=new HPAdapter(mContext,weiXinHots.get(0).getNewslist());
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        list.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                        list.setAdapter(mHPAdapter);
+                    }
+                });*/
+
+            }
+        });
+
+        GetDataService.setOnCallListener(new GetDataService.OnGetBitMap() {
+            @Override
+            public void onCall(List<Bitmap> bitmaps) {
+                mHPAdapter=new HPAdapter(mContext,newsList,bitmaps,briefList);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        list.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                        list.setAdapter(mHPAdapter);
+                    }
+                });
             }
         });
         mIntent=new Intent(mContext,GetDataService.class);
         mIntent.putExtra("Key","WeiXinHot");
         mContext.startService(mIntent);
+        mIntent=null;
         return view;
     }
-
-
-
-
-
 }

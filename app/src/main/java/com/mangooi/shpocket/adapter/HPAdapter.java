@@ -1,6 +1,9 @@
 package com.mangooi.shpocket.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +25,15 @@ public class HPAdapter extends RecyclerView.Adapter<HPAdapter.MyViewHolder>{
 
     private Context mContext;
     private List<WeiXinHot.NewsList> newsLists;
+    private List<Bitmap> bitmaps;
+    private List<String> briefs;
 
 
-    public HPAdapter(Context mContext, List<WeiXinHot.NewsList> newsLists) {
+    public HPAdapter(Context mContext, List<WeiXinHot.NewsList> newsLists, List<Bitmap> bitmaps, List<String> briefs) {
         this.mContext = mContext;
         this.newsLists = newsLists;
+        this.bitmaps = bitmaps;
+        this.briefs = briefs;
     }
 
     @Override
@@ -38,12 +45,14 @@ public class HPAdapter extends RecyclerView.Adapter<HPAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
+        holder.tvImage.setBackground(new BitmapDrawable(bitmaps.get(position)));
+        holder.tvBrief.setText(briefs.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return newsLists.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{

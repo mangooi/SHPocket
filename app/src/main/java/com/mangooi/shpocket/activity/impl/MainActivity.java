@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 
 import com.mangooi.shpocket.R;
-import com.mangooi.shpocket.TestActivity;
 import com.mangooi.shpocket.activity.IMainActivity;
 import com.mangooi.shpocket.data.Constant;
 import com.mangooi.shpocket.fragment.HomePage;
