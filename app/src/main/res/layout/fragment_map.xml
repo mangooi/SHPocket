@@ -13,6 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:background="#FDFFFE"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
@@ -28,7 +30,10 @@
                 android:id="@+id/textView2" />
 
             <EditText
-                android:hint="搜地点、查公交、找路线"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:id="@+id/id_map_et_entry"
+                android:hint="@string/string_map_et_hint"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
@@ -41,6 +46,7 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/id_map_ll_bottom"
         android:background="#FDFFFE"
         android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
@@ -75,4 +81,12 @@
 
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/id_map_btn_loc"
+        android:layout_marginStart="10dp"
+        android:layout_above="@id/id_map_ll_bottom"
+        android:text="@string/string_map_btn_loc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

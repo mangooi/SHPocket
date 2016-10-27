@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 
 import com.mangooi.shpocket.data.Constant;
 import com.mangooi.shpocket.util.PictureUtils;
-import com.mangooi.shpocket.util.Test;
+import com.mangooi.shpocket.util.NetUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class GetDataService extends IntentService{
         String key=intent.getStringExtra("Key");
         switch (key){
             case "WeiXinHot":
-                mListener.onCall(Test.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG));
+                mListener.onCall(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG));
                 break;
             case "BitMap":
                 bitmaps=new ArrayList<>();

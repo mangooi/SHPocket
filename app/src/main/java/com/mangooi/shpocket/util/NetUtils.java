@@ -14,7 +14,7 @@ import java.net.URL;
  * Created by Administrator on 2016/10/21.
  */
 
-public class Test {
+public class NetUtils {
     public static String request(String httpUrl, String httpArg){
         BufferedReader reader = null;
         String result = null;
@@ -41,7 +41,7 @@ public class Test {
             result = sbf.toString();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i("Test","失败");
+            Log.i("NetUtils","失败");
         }
         return result;
     }

@@ -10,10 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="123dp" />
     <!--点击加入收藏-->
-    <TextView
+    <!--<TextView
         android:text="@string/tv_addToFav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
     <!--华丽的分割线-->
     <LinearLayout
         android:background="@color/AllDefault"
@@ -23,6 +23,6 @@
     <TextView
         android:id="@+id/id_homepage_item_brief"
         android:layout_width="match_parent"
-        android:layout_height="33dp" />
+        android:layout_height="50dp" />
 
 </LinearLayout>

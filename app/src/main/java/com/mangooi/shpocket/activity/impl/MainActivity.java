@@ -1,6 +1,5 @@
 package com.mangooi.shpocket.activity.impl;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,13 +14,13 @@ import com.mangooi.shpocket.R;
 import com.mangooi.shpocket.activity.IMainActivity;
 import com.mangooi.shpocket.data.Constant;
 import com.mangooi.shpocket.fragment.HomePage;
-import com.mangooi.shpocket.util.Test;
+import com.mangooi.shpocket.fragment.Map;
+import com.mangooi.shpocket.util.NetUtils;
 import com.mangooi.shpocket.util.parse.GsonUtils;
 import com.mangooi.shpocket.util.parse.homepage.WeiXinHot;
 
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,7 +31,7 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements IMainActivity{
 
     Fragment mHomePage;
-
+    Fragment mMap;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +56,26 @@ public class MainActivity extends AppCompatActivity implements IMainActivity{
 
     @Override
     public void toHomePage() {
+        openFragment(mHomePage);
         Toast.makeText(this, "homePage", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void toFind() {
+        if (mMap==null)mMap=new Map();
+        openFragment(mMap);
         Toast.makeText(this, "find", Toast.LENGTH_SHORT).show();
+    }
 
+    /**
+     * 打开一个新的Fragment界面
+     * @param fragment fragment
+     */
+    private void openFragment(Fragment fragment) {
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction ft=fm.beginTransaction();
+        ft.replace(R.id.id_main_fl,fragment);
+        ft.commit();
     }
 
     @Override
@@ -73,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity{
             public void run() {
                 super.run();
                 List<WeiXinHot> list= GsonUtils
-                .parseJsonArrayWithGson(Test.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG), WeiXinHot.class);
-                Log.i("Test",list.toString());
+                .parseJsonArrayWithGson(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG), WeiXinHot.class);
+                Log.i("NetUtils",list.toString());
             }
         }.start();
 

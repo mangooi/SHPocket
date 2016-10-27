@@ -23,7 +23,7 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="jebm57eNmNiogas10hCQvsHgfQ7yqknP" />
-        <activity android:name=".BaiduMapTest" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

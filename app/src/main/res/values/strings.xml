@@ -3,4 +3,6 @@
     <string name="text_splash">引导图片</string>
     <string name="hint_find">搜索</string>
     <string name="tv_addToFav">加入收藏</string>
+    <string name="string_map_et_hint">搜地点、查公交、找路线</string>
+    <string name="string_map_btn_loc">我的位置</string>
 </resources>
