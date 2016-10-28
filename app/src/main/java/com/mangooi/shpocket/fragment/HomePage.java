@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/16.
@@ -77,6 +79,7 @@ public class HomePage extends Fragment{
                 mIntent.putExtra("Key","BitMap");
                 mIntent.putStringArrayListExtra("array",urlList);
                 mContext.startService(mIntent);
+                mIntent=null;
                 /*mHPAdapter=new HPAdapter(mContext,weiXinHots.get(0).getNewslist());
                 mHandler.post(new Runnable() {
                     @Override
@@ -93,6 +96,12 @@ public class HomePage extends Fragment{
             @Override
             public void onCall(List<Bitmap> bitmaps) {
                 mHPAdapter=new HPAdapter(mContext,newsList,bitmaps,briefList);
+                mHPAdapter.setListener(new HPAdapter.HPItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        openItem(newsList.get(position));
+                    }
+                });
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -102,10 +111,54 @@ public class HomePage extends Fragment{
                 });
             }
         });
+        startServiceByKey("WeiXinHot");
+        return view;
+    }
+
+    /**
+     * 单击Item时打开内容
+     * @param openContent 打开内容的信息
+     */
+    private void openItem(WeiXinHot.NewsList openContent) {
+        //可以选择直接加载一个URL
+        Toast.makeText(mContext, "打开一个网页", Toast.LENGTH_SHORT).show();
+    }
+
+    private void startServiceByKey(String key) {
         mIntent=new Intent(mContext,GetDataService.class);
-        mIntent.putExtra("Key","WeiXinHot");
+        mIntent.putExtra("Key",key);
         mContext.startService(mIntent);
         mIntent=null;
-        return view;
+    }
+
+    @OnClick(R.id.id_homepage_tv_shopping)
+    void shopping(){
+        startServiceByKey("WeiXinHotShop");
+    }
+    @OnClick(R.id.id_homepage_tv_exhibition)
+    void exhibition(){
+        startServiceByKey("WeiXinHotExhibition");
+    }
+    @OnClick(R.id.id_homepage_tv_activity)
+    void activity(){
+        startServiceByKey("WeiXinHotActivity");
+    }
+    @OnClick(R.id.id_homepage_tv_film)
+    void film(){
+        startServiceByKey("WeiXinHotFilm");
+    }
+    @OnClick(R.id.id_homepage_tv_food)
+    void food(){
+        startServiceByKey("WeiXinHotFood");
+    }
+    @OnClick(R.id.id_homepage_tv_spot)
+    void spot(){
+        startServiceByKey("WeiXinHotSpot");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        GetDataService.desListener();
     }
 }

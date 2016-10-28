@@ -2,3 +2,7 @@
 2.所返回的Json数据的全部解析
 3.收藏及口袋界面的设计
 4.百度Poi检索
+
+
+
+****   http://apistore.baidu.com/apiworks/servicedetail/508.html  百度糯米API    - 12.1

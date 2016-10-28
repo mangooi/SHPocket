@@ -45,24 +45,29 @@
         android:layout_marginTop="55dp"
         android:layout_marginBottom="5dp">
         <TextView
+            android:id="@+id/id_homepage_tv_food"
             android:background="@mipmap/food"
             style="@style/HomePageIconTV" />
         <TextView
+            android:id="@+id/id_homepage_tv_shopping"
             android:background="@mipmap/shopping"
             style="@style/HomePageIconTV" />
         <TextView
+            android:id="@+id/id_homepage_tv_film"
             android:background="@mipmap/film"
             style="@style/HomePageIconTV" />
         <TextView
+            android:id="@+id/id_homepage_tv_spot"
             android:background="@mipmap/spot"
             style="@style/HomePageIconTV" />
 
         <TextView
             android:background="@mipmap/exhibition"
             style="@style/HomePageIconTV"
-            android:id="@+id/textView" />
+            android:id="@+id/id_homepage_tv_exhibition" />
 
         <TextView
+            android:id="@+id/id_homepage_tv_activity"
             android:background="@mipmap/activity"
             style="@style/HomePageIconTV" />
 

@@ -27,6 +27,7 @@ public class HPAdapter extends RecyclerView.Adapter<HPAdapter.MyViewHolder>{
     private List<WeiXinHot.NewsList> newsLists;
     private List<Bitmap> bitmaps;
     private List<String> briefs;
+    private HPItemClickListener listener;
 
 
     public HPAdapter(Context mContext, List<WeiXinHot.NewsList> newsLists, List<Bitmap> bitmaps, List<String> briefs) {
@@ -48,6 +49,7 @@ public class HPAdapter extends RecyclerView.Adapter<HPAdapter.MyViewHolder>{
         holder.tvImage.setBackground(new BitmapDrawable(bitmaps.get(position)));
         holder.tvBrief.setText(briefs.get(position));
 
+
     }
 
     @Override
@@ -55,13 +57,33 @@ public class HPAdapter extends RecyclerView.Adapter<HPAdapter.MyViewHolder>{
         return newsLists.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvImage;
         TextView tvBrief;
+
         MyViewHolder(View itemView) {
             super(itemView);
             tvImage= (TextView) itemView.findViewById(R.id.id_homepage_item_image);
             tvBrief= (TextView) itemView.findViewById(R.id.id_homepage_item_brief);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            listener.onClick(getAdapterPosition());
+        }
+
+
     }
+
+    public void setListener(HPItemClickListener listener){
+        this.listener=listener;
+    }
+
+    public interface HPItemClickListener{
+        void onClick(int position);
+    }
+
+
+
 }

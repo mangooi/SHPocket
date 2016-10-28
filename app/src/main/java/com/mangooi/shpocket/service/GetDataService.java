@@ -34,6 +34,24 @@ public class GetDataService extends IntentService{
             case "WeiXinHot":
                 mListener.onCall(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG));
                 break;
+            case "WeiXinHotFood":
+                mListener.onCall(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG_FOOD));
+                break;
+            case "WeiXinHotShop":
+                mListener.onCall(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG_SHOPPING));
+                break;
+            case "WeiXinHotFilm":
+                mListener.onCall(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG_FILM));
+                break;
+            case "WeiXinHotSpot":
+                mListener.onCall(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG_SPOT));
+                break;
+            case "WeiXinHotExhibition":
+                mListener.onCall(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG_EXHIBITION));
+                break;
+            case "WeiXinHotActivity":
+                mListener.onCall(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG_ACTIVITY));
+                break;
             case "BitMap":
                 bitmaps=new ArrayList<>();
                 ArrayList<String> urls=intent.getStringArrayListExtra("array");
@@ -61,10 +79,15 @@ public class GetDataService extends IntentService{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mListener=null;
-        mGetBitMap=null;
+
     }
+
+
 
     public static void setOnCallListener(OnGetBitMap listener){mGetBitMap=listener;}
 
+    public static void desListener(){
+        mListener=null;
+        mGetBitMap=null;
+    }
 }
