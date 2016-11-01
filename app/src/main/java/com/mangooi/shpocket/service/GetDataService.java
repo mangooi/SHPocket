@@ -3,11 +3,15 @@ package com.mangooi.shpocket.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.mangooi.shpocket.data.Constant;
+import com.mangooi.shpocket.util.HexadecimalConver;
 import com.mangooi.shpocket.util.PictureUtils;
 import com.mangooi.shpocket.util.NetUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +20,7 @@ import java.util.List;
  */
 
 public class GetDataService extends IntentService{
+
 
     private static OnCallListener mListener;
     private static OnGetBitMap mGetBitMap;
@@ -29,6 +34,9 @@ public class GetDataService extends IntentService{
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
+        if (mListener==null||mGetBitMap==null)return;//避免用户按键太快,会报空指针
+
         String key=intent.getStringExtra("Key");
         switch (key){
             case "WeiXinHot":
@@ -58,8 +66,20 @@ public class GetDataService extends IntentService{
                 for (String url : urls) {
                     bitmaps.add(PictureUtils.getBitmap(url));
                 }
+                if (mGetBitMap==null)break;
                 mGetBitMap.onCall(bitmaps);
+                break;
             default:
+                String temp=null;
+                Log.i("Test",key);
+                try {
+                    temp=URLEncoder.encode(key,"UTF-8");
+                    Log.i("Test",HexadecimalConver.encode(key)+"   /   "+ URLEncoder.encode(key,"UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Log.i("Test",HexadecimalConver.encode(key));
+                mListener.onCall(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG_HEAD+temp+Constant.WEIXIN_HOT_ARG_END));
                 break;
         }
     }
@@ -79,7 +99,6 @@ public class GetDataService extends IntentService{
     @Override
     public void onDestroy() {
         super.onDestroy();
-
     }
 
 

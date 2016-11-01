@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.baidu.mapapi.map.MapView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/id_detail_map" />
+
+    <TextView
+        android:textSize="25sp"
+        android:layout_margin="20dp"
+        android:text="餐厅名称"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_detail_map"
+        android:layout_alignParentStart="true"
+        android:id="@+id/id_detail_tv_name" />
+
+    <TextView
+        android:textSize="15sp"
+        android:text="地址"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_detail_tv_name"
+        android:layout_alignStart="@+id/id_detail_tv_name"
+        android:layout_marginStart="20dp"
+        android:id="@+id/id_detail_tv_address" />
+
+    <TextView
+        android:textSize="15sp"
+        android:text="电话"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_detail_tv_phone"
+        android:layout_below="@+id/id_detail_tv_address"
+        android:layout_alignStart="@+id/id_detail_tv_address"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:textSize="15sp"
+        android:text="人均"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_detail_tv_phone"
+        android:layout_alignStart="@+id/id_detail_tv_phone"
+        android:layout_marginTop="10dp"
+        android:id="@+id/id_detail_tv_price" />
+
+    <TextView
+        android:textSize="15sp"
+        android:text="营业时间"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_detail_tv_price"
+        android:layout_alignStart="@+id/id_detail_tv_price"
+        android:layout_marginTop="10dp"
+        android:id="@+id/id_detail_tv_time" />
+
+    <Button
+        android:text="加入行程"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_detail_btn"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

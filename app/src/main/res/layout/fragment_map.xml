@@ -46,6 +46,7 @@
     </FrameLayout>
 
     <LinearLayout
+        android:visibility="invisible"
         android:id="@+id/id_map_ll_bottom"
         android:background="#FDFFFE"
         android:layout_margin="10dp"
@@ -89,4 +90,18 @@
         android:text="@string/string_map_btn_loc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+
+    <ListView
+        android:background="#FFFFFF"
+        android:visibility="gone"
+        android:id="@+id/id_poiResult_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <WebView
+        android:background="#FFFFFF"
+        android:id="@+id/id_poiResult_wv"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>

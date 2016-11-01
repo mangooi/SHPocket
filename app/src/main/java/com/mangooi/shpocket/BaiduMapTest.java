@@ -22,6 +22,7 @@ import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.model.LatLng;
 
 /**
+ * @deprecated
  * Created by Administrator on 2016/10/26.
  */
 

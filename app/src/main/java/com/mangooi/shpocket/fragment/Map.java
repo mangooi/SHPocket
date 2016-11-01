@@ -5,12 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +30,19 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.mangooi.shpocket.R;
+import com.mangooi.shpocket.activity.impl.MainActivity;
+import com.mangooi.shpocket.adapter.PoiResultAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,13 +53,20 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/10/27.
  */
 
-public class Map extends Fragment{
+public class Map extends Fragment implements AdapterView.OnItemClickListener{
 
 
+    private static final String TAG = "Map";
     @BindView(R.id.id_map_et_entry)
     EditText etEntry;
     @BindView(R.id.id_map_map)
     MapView mMapView;
+    @BindView(R.id.id_map_btn_loc)
+    Button btn;
+    @BindView(R.id.id_poiResult_list)
+    ListView mListView;
+    @BindView(R.id.id_poiResult_wv)
+    WebView mWebView;
 
     private BaiduMap mBaiduMap;
     private Context mContext;
@@ -56,6 +80,11 @@ public class Map extends Fragment{
     //定位SDK的核心类
     private LocationClient mLocClient;
 
+    PoiSearch mPoiSearch;
+
+    //private Intent mIntent;
+    private List<PoiInfo> infos;
+
 
     @Override
     public void onAttach(Context context) {
@@ -63,17 +92,18 @@ public class Map extends Fragment{
         mContext=context;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_map,container,false);
         ButterKnife.bind(this,view);
         init();
-
         return view;
     }
 
     private void init() {
+        mMapView.showZoomControls(false);
         //设置回车键的样式及响应
         etEntry.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -136,11 +166,13 @@ public class Map extends Fragment{
         mBaiduMap.animateMapStatus(msu);
     }
 
+
+
     public class MyLocationListener implements BDLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            //mapview 销毁后不在处理新接收的位置
+            //mapView 销毁后不在处理新接收的位置
             if (location == null || mBaiduMap == null) {
                 return;
             }
@@ -180,8 +212,72 @@ public class Map extends Fragment{
      */
     private void search(String text) {
 
+        mPoiSearch=PoiSearch.newInstance();
 
+        mPoiSearch.setOnGetPoiSearchResultListener(new OnGetPoiSearchResultListener() {
+            @Override
+            public void onGetPoiResult(PoiResult poiResult) {
+                Toast.makeText(mContext, "onGetPoiResult", Toast.LENGTH_SHORT).show();
+                infos=poiResult.getAllPoi();
+                mListView.setAdapter(new PoiResultAdapter(mContext,infos));
+                mListView.setOnItemClickListener(Map.this);
+                btn.setVisibility(View.INVISIBLE);
+                mListView.setVisibility(View.VISIBLE);
+                /*mIntent=new Intent(getActivity(),PoiResultActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putParcelable("poiResult",poiResult);
+                startActivityForResult(mIntent,0x01,bundle);//这种方式启动后显示不了...???
+                Toast.makeText(mContext, "已经启动", Toast.LENGTH_SHORT).show();
+                mIntent=null;*/
+            }
 
+            @Override
+            public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+                Toast.makeText(mContext, "onGetPoiDetailResult", Toast.LENGTH_SHORT).show();
+                GetDetails(poiDetailResult);
+                ((MainActivity)mContext).showPoiDetails(poiDetailResult);
+            }
+
+            @Override
+            public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
+                Toast.makeText(mContext, "onGetPoiIndoorResult", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mPoiSearch.searchInCity(new PoiCitySearchOption().city("上海").keyword(text).pageNum(10));
+
+        //mPoiSearch.destroy();
+    }
+
+    private void GetDetails(PoiDetailResult poiDetailResult) {
+        Log.i(TAG+"name",poiDetailResult.getName());
+        Log.i(TAG+"getLocation",poiDetailResult.getLocation().toString());
+        Log.i(TAG+"getAddress",poiDetailResult.getAddress());
+        Log.i(TAG+"getTelephone",poiDetailResult.getTelephone());
+        Log.i(TAG+"getUid",poiDetailResult.getUid());
+        Log.i(TAG+"getTag",poiDetailResult.getTag());
+        Log.i(TAG+"getType",poiDetailResult.getType());
+        Log.i(TAG+"getDetailUrl",poiDetailResult.getDetailUrl());
+        Log.i(TAG+"getType",poiDetailResult.getType()+"");
+        Log.i(TAG+"getOverallRating",poiDetailResult.getOverallRating()+"");
+        Log.i(TAG+"getTasteRating",poiDetailResult.getTasteRating()+"");
+        Log.i(TAG+"getServiceRating",poiDetailResult.getServiceRating()+"");
+        Log.i(TAG+"getEnvironmentRating",poiDetailResult.getEnvironmentRating()+"");
+        Log.i(TAG+"getFacilityRating",poiDetailResult.getFacilityRating()+"");
+        Log.i(TAG+"getTechnologyRating",poiDetailResult.getTechnologyRating()+"");
+        Log.i(TAG+"getImageNum",poiDetailResult.getImageNum()+"");
+        Log.i(TAG+"getGrouponNum",poiDetailResult.getGrouponNum()+"");
+        Log.i(TAG+"getCommentNum",poiDetailResult.getCommentNum()+"");
+        Log.i(TAG+"getFavoriteNum",poiDetailResult.getFavoriteNum()+"");
+        Log.i(TAG+"getCheckinNum",poiDetailResult.getCheckinNum()+"");
+        Log.i(TAG+"getShopHours",poiDetailResult.getShopHours());
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mPoiSearch.searchPoiDetail(new PoiDetailSearchOption().poiUid(infos.get(position).uid));
+        mListView.setVisibility(View.GONE);
+        btn.setVisibility(View.VISIBLE);
     }
 
 
@@ -191,6 +287,7 @@ public class Map extends Fragment{
     private String getText(){
         return etEntry.getText().toString();
     }
+
 
 
 }

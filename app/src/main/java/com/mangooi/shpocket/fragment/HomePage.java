@@ -5,25 +5,27 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 import com.mangooi.shpocket.R;
+import com.mangooi.shpocket.activity.impl.MainActivity;
 import com.mangooi.shpocket.adapter.HPAdapter;
 import com.mangooi.shpocket.service.GetDataService;
 import com.mangooi.shpocket.util.parse.GsonUtils;
-import com.mangooi.shpocket.util.parse.homepage.WeiXinHot;
+import com.mangooi.shpocket.model.WeiXinHot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +33,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
+
+
 /**
+ * 默认的第一个页面
  * Created by Administrator on 2016/10/16.
  */
 
 public class HomePage extends Fragment{
 
+
+    @BindView(R.id.id_homepage_et)
+    EditText etEntry;
 
     @BindView(R.id.id_homepage_list)
     RecyclerView list;
@@ -51,6 +60,8 @@ public class HomePage extends Fragment{
     List<WeiXinHot.NewsList> newsList;
     ArrayList<String> urlList;
 
+    List<WeiXinHot> mWeiXinHots;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -63,12 +74,23 @@ public class HomePage extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_homepage,container,false);
         ButterKnife.bind(this,view);
+        etEntry.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId== EditorInfo.IME_ACTION_SEARCH) search(getText());
+                clearET();
+                ((MainActivity)mContext).hintKbTwo();
+                return false;
+            }
+        });
+
+
         GetDataService.setOnCallListener(new GetDataService.OnCallListener() {
             @Override
             public void onCall(String content) {
                 //将content进行解析
-                List<WeiXinHot> weiXinHots= GsonUtils.parseJsonArrayWithGson(content,WeiXinHot.class);
-                newsList=weiXinHots.get(0).getNewslist();
+                mWeiXinHots= GsonUtils.parseJsonArrayWithGson(content,WeiXinHot.class);
+                newsList=mWeiXinHots.get(0).getNewslist();
                 briefList=new ArrayList<String>();
                 urlList=new ArrayList<String>();
                 for (WeiXinHot.NewsList newsList1 : newsList) {
@@ -99,7 +121,7 @@ public class HomePage extends Fragment{
                 mHPAdapter.setListener(new HPAdapter.HPItemClickListener() {
                     @Override
                     public void onClick(int position) {
-                        openItem(newsList.get(position));
+                        openItem(mWeiXinHots.get(0),position);
                     }
                 });
                 mHandler.post(new Runnable() {
@@ -109,19 +131,27 @@ public class HomePage extends Fragment{
                         list.setAdapter(mHPAdapter);
                     }
                 });
+
+
             }
         });
         startServiceByKey("WeiXinHot");
         return view;
     }
 
-    /**
-     * 单击Item时打开内容
-     * @param openContent 打开内容的信息
-     */
-    private void openItem(WeiXinHot.NewsList openContent) {
+    private void clearET() {
+        etEntry.setText("");
+    }
+
+    private void search(String text) {
+        startServiceByKey(text);
+    }
+
+
+    private void openItem(WeiXinHot weiXinHot,int position) {
         //可以选择直接加载一个URL
         Toast.makeText(mContext, "打开一个网页", Toast.LENGTH_SHORT).show();
+        ((MainActivity)mContext).showHomePageDetails(weiXinHot,position);
     }
 
     private void startServiceByKey(String key) {
@@ -159,6 +189,25 @@ public class HomePage extends Fragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        GetDataService.desListener();
+
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //GetDataService.desListener();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //GetDataService.desListener();
+    }
+
+    @NonNull
+    public String getText(){
+        return etEntry.getText().toString();
+    }
+
+
 }

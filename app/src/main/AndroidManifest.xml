@@ -15,7 +15,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -32,11 +32,13 @@
         </activity>
         <!--<activity android:name=".TestActivity"/>-->
         <activity android:name=".activity.impl.MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.impl.PoiResultActivity"/>
         <service android:name=".service.GetDataService"/>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote"/>
+        <service android:name=".service.DBControlService"/>
     </application>
 
 </manifest>

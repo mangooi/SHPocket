@@ -3,7 +3,6 @@ package com.mangooi.shpocket.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mangooi.shpocket.R;
-import com.mangooi.shpocket.util.parse.homepage.WeiXinHot;
+import com.mangooi.shpocket.model.WeiXinHot;
 
 import java.util.List;
 

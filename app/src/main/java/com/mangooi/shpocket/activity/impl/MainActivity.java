@@ -1,5 +1,6 @@
 package com.mangooi.shpocket.activity.impl;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,17 +8,23 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 
+import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.mangooi.shpocket.R;
 import com.mangooi.shpocket.activity.IMainActivity;
 import com.mangooi.shpocket.data.Constant;
+import com.mangooi.shpocket.fragment.Collection;
+import com.mangooi.shpocket.fragment.CollectionDetail;
 import com.mangooi.shpocket.fragment.HomePage;
+import com.mangooi.shpocket.fragment.HomePageDetail;
 import com.mangooi.shpocket.fragment.Map;
+import com.mangooi.shpocket.fragment.PoiResultDetail;
 import com.mangooi.shpocket.util.NetUtils;
 import com.mangooi.shpocket.util.parse.GsonUtils;
-import com.mangooi.shpocket.util.parse.homepage.WeiXinHot;
+import com.mangooi.shpocket.model.WeiXinHot;
 
 import java.util.List;
 
@@ -32,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity{
 
     Fragment mHomePage;
     Fragment mMap;
+    Fragment mCollection;
+    Fragment mPoiResultDetail;
+    Fragment mHomePageDetail;
+    Fragment mCollectionDetail;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity{
 
     @Override
     public void toCollection() {
-        new Thread(){
+        /*new Thread(){
             @Override
             public void run() {
                 super.run();
@@ -88,12 +99,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity{
                 .parseJsonArrayWithGson(NetUtils.request(Constant.WEIXIN_HOT_URL,Constant.WEIXIN_HOT_ARG), WeiXinHot.class);
                 Log.i("NetUtils",list.toString());
             }
-        }.start();
-
-
-
+        }.start();*/
+        if (mCollection==null)mCollection=new Collection();
+        openFragment(mCollection);
         Toast.makeText(this, "collection", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -117,6 +126,40 @@ public class MainActivity extends AppCompatActivity implements IMainActivity{
     @OnClick(R.id.id_main_pocket)
     void pocket(){
         toPocket();
+    }
+
+
+    public void showPoiDetails(PoiDetailResult result){
+        Bundle bundle=new Bundle();
+        bundle.putParcelable("PoiDetailResult",result);
+        mPoiResultDetail=new PoiResultDetail();
+        mPoiResultDetail.setArguments(bundle);
+        openFragment(mPoiResultDetail);
+    }
+    public void showHomePageDetails(WeiXinHot weiXinHot,int position){
+        Bundle bundle=new Bundle();
+        bundle.putParcelable("WeiXinHot",weiXinHot);
+        bundle.putInt("position",position);
+        mHomePageDetail=new HomePageDetail();
+        mHomePageDetail.setArguments(bundle);
+        openFragment(mHomePageDetail);
+    }
+
+    public void showCollectionDetails(String url){
+        Bundle bundle=new Bundle();
+        bundle.putString("url",url);
+        mCollectionDetail=new CollectionDetail();
+        mCollectionDetail.setArguments(bundle);
+        openFragment(mCollectionDetail);
+    }
+
+    public void hintKbTwo() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm.isActive()&&getCurrentFocus()!=null){
+            if (getCurrentFocus().getWindowToken()!=null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 
 
